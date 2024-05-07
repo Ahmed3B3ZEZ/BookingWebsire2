@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Admin Details</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+        </tr>
+        <tbody id="adminTableBody">
+        <!-- Admin data will be inserted here -->
+        </tbody>
+    </table>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    window.onload = function() {
+        var url = "http://localhost:8081/Admin/showAdmin";
+        axios.get(url)
+        .then(function(response) {
+            var admins = response.data;
+            var adminTableBody = document.getElementById('adminTableBody');
+            admins.forEach(function(admin) {
+                var row = "<tr>";
+                row += "<td>" + admin.adminId + "</td>";
+                row += "<td>" + admin.name + "</td>";
+                row += "<td>" + admin.email + "</td>";
+                row += "<td>" + admin.password + "</td>";
+                row += "</tr>";
+                adminTableBody.innerHTML += row;
+            });
+        })
+        .catch(function(error) {
+            console.log(error);
+            alert("Error fetching admin details.");
+        });
+    };
+</script>
+</body>
+</html>
